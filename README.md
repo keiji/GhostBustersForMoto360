@@ -1,18 +1,24 @@
-# ビルド方法 #
+#apkのダウンロード
+
+http://blog.keiji.io/wp-content/uploads/2014/09/GhostBustersForMoto360-20140924.apk_.zip
+
+上記アドレスからダウンロードしたzipファイルを展開します。
+
+#ビルド方法
 
 Android 4.4 (KitKat Wear: API 20)のSDK Platformを用意し、環境変数`ANDROID_HOME`を設定します。
 
     $ cd GhostBustersForMoto360
     $ $ ./gradlew assemble
 
-# インストール方法 #
+#インストール方法
 
-## Bluetooth経由のDebugを有効にしたMoto 360と接続する ##
+##Bluetooth経由のDebugを有効にしたMoto 360と接続する
 
     $ adb forward tcp:4444 localabstract:/adb-hub; adb connect localhost:4444
     connected to localhost:4444
 
-## Moto 360にアプリをインストールする ##
+##Moto 360にアプリをインストールする
     
     $ adb -s localhost:4444 install app/build/outputs/apk/app-debug.apk
      app/build/outputs/apk/app-debug.apk
@@ -20,11 +26,13 @@ Android 4.4 (KitKat Wear: API 20)のSDK Platformを用意し、環境変数`ANDR
         pkg: /data/local/tmp/app-debug.apk
     Success
 
-## サービスを起動する ##
+##サービスを起動する
 
     $ adb -s localhost:4444 shell am startservice io.keiji.ghostbusters/.WatchDockService
     Starting service: Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] cmp=io.keiji.ghostbusters/.WatchDockService }
 
-この操作は、最初の一回だけ必要です。
+この操作は、最初の一回だけ必要です。次回からはMoto 360の起動時に自動的に起動します。
 
-次回からはMoto 360の起動時に自動的に起動します。
+##アプリをアンインストールする
+    
+    $ adb -s localhost:4444 uninstall io.keiji.ghostbusters

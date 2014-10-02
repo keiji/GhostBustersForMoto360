@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
 public class WatchDockService extends Service {
     public static final String TAG = WatchDockService.class.getSimpleName();
+
+    public static final int ZERO = 0;
 
     private static final WindowManager.LayoutParams SYSTEM_ALERT_PARAMS
             = new WindowManager.LayoutParams(
@@ -25,7 +28,10 @@ public class WatchDockService extends Service {
     private View mView;
     private WindowManager mWindowManager;
 
+    private int mBrightness = -1;
+
     private final BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+
         @Override
         public void onReceive(Context context, Intent intent) {
             int dockState = intent.getIntExtra(Intent.EXTRA_DOCK_STATE, -1);
@@ -36,9 +42,24 @@ public class WatchDockService extends Service {
             }
 
             if (isDocked) {
+                try {
+                    mBrightness = Settings.System.getInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS);
+                    if (BuildConfig.DEBUG) {
+                        Log.d(TAG, "now brightness = " + mBrightness);
+                    }
+                } catch (Settings.SettingNotFoundException e) {
+                    Log.e(TAG, "SettingNotFoundException", e);
+                }
+
+                Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, ZERO);
+
                 mWindowManager.addView(mView, SYSTEM_ALERT_PARAMS);
             } else if (mView.isShown()) {
                 mWindowManager.removeViewImmediate(mView);
+
+                if (mBrightness != -1) {
+                    Settings.System.putInt(getContentResolver(), Settings.System.SCREEN_BRIGHTNESS, mBrightness);
+                }
             }
         }
     };

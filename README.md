@@ -9,7 +9,7 @@ http://blog.keiji.io/wp-content/uploads/2014/09/GhostBustersForMoto360-20140924.
 Android 4.4 (KitKat Wear: API 20)のSDK Platformを用意し、環境変数`ANDROID_HOME`を設定します。
 
     $ cd GhostBustersForMoto360
-    $ $ ./gradlew assemble
+    $ ./gradlew assemble
 
 #インストール方法
 

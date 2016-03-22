@@ -1,15 +1,8 @@
 #apkのダウンロード
 
-http://blog.keiji.io/wp-content/uploads/2014/09/GhostBustersForMoto360-20140924.apk_.zip
+https://github.com/keiji/GhostBustersForMoto360/releases
 
-上記アドレスからダウンロードしたzipファイルを展開します。
-
-#ビルド方法
-
-Android 4.4 (KitKat Wear: API 20)のSDK Platformを用意し、環境変数`ANDROID_HOME`を設定します。
-
-    $ cd GhostBustersForMoto360
-    $ ./gradlew assemble
+上記アドレスから最新のAPKファイルをダウンロードします。
 
 #インストール方法
 
@@ -20,10 +13,10 @@ Android 4.4 (KitKat Wear: API 20)のSDK Platformを用意し、環境変数`ANDR
 
 ##Moto 360にアプリをインストールする
     
-    $ adb -s 127.0.0.1:4444 install app/build/outputs/apk/app-debug.apk
-     app/build/outputs/apk/app-debug.apk
+    $ adb -s 127.0.0.1:4444 install app/build/outputs/apk/app-release-1_0_1.apk
+     app/build/outputs/apk/app-release-1_0_1.apk
     40 KB/s (1123507 bytes in 26.994s)
-	    pkg: /data/local/tmp/app-debug.apk
+	    pkg: /data/local/tmp/app-release-1_0_1.apk
     Success
 
 ##サービスを起動する
